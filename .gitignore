@@ -6,3 +6,4 @@ target/
 /.idea/compiler.xml
 /.idea/workspace.xml
 /.idea/*
+/tiingo4j.iml
