@@ -1,1 +1,6 @@
 target/
+/.idea/.gitignore
+/.idea/vcs.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/compiler.xml
