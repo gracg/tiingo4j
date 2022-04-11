@@ -8,7 +8,6 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
 public class HistoricalPriceParameters extends AbstractParameters {
-    private final HashMap<String,String> map = new HashMap<>();
 
     public HistoricalPriceParameters setStartDate(String date) {
         if(date!=null) {
@@ -47,4 +46,8 @@ public class HistoricalPriceParameters extends AbstractParameters {
     }
 
 
+    @Override
+    public HashMap<String, String> getMap() {
+       return map;
+    }
 }
