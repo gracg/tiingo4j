@@ -9,4 +9,5 @@ public class Meta {
     private String description;
     private String startDate;
     private String endDate;
+    private String exchangeCode;
 }
