@@ -2,10 +2,13 @@ package nl.capite.tiingo4j.models;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class CryptoTopOfTheBook {
-    protected String ticker;
-    protected String baseCurrency;
-    protected String quoteCurrency;
-    protected CryptoTopOfTheBookData[] topOfBookData;
+    private String ticker;
+    private String baseCurrency;
+    private String quoteCurrency;
+    private CryptoTopOfTheBookData[] topOfBookData;
+    private Map<String,CryptoTopOfTheBookDataProvider[]> exchangeData;
 }
