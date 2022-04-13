@@ -3,6 +3,7 @@ package nl.capite.tiingo4j.apis;
 import nl.capite.tiingo4j.abstracts.AbstractApi;
 import nl.capite.tiingo4j.exceptions.ApiException;
 import nl.capite.tiingo4j.models.*;
+import nl.capite.tiingo4j.requestParameters.CryptoTopOfTheBookParameters;
 import nl.capite.tiingo4j.requestParameters.HistoricalPriceParameters;
 import nl.capite.tiingo4j.requestParameters.NewsParameters;
 
@@ -28,8 +29,8 @@ public class TiingoApi extends AbstractApi {
         return super.getNews(parameters);
     }
 
-    public List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers, List<String> exchanges) throws IOException, ApiException {
-        return super.getCryptoTopOfTheBook(tickers,exchanges);
+    public List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers, CryptoTopOfTheBookParameters parameters) throws IOException, ApiException {
+        return super.getCryptoTopOfTheBook(tickers,parameters);
     }
 
 }
