@@ -93,20 +93,6 @@ public abstract class AbstractApi {
     }
 
 
-    protected List<Article> getNews(NewsParameters parameters) throws IOException, ApiException {
-        final String url = "https://api.tiingo.com/tiingo/news";
-        Request request = createRequest(url,parameters);
-
-        Response response = client.newCall(request).execute();
-        String body = response.body().string();
-
-        if(!isStatus2XX(response.code())) {
-            throw parseError(body,null);
-        }
-
-        var x = mapper.readValue(body,Article[].class);
-        return  x==null?new ArrayList<>():Arrays.asList(x);
-    }
 
     protected List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers, CryptoTopOfTheBookParameters parameters) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/crypto/top";

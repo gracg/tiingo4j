@@ -14,10 +14,12 @@ import java.util.Optional;
 public class TiingoApi extends AbstractApi {
 
     private final StockApi stockApi;
+    private final NewsApi newsApi;
 
     public TiingoApi(String apiKey) {
         super(apiKey);
         stockApi = new StockApi(apiKey);
+        newsApi = new NewsApi(apiKey);
     }
 
     public Optional<Meta> getMeta(String ticker) throws IOException, ApiException {
@@ -29,7 +31,7 @@ public class TiingoApi extends AbstractApi {
     }
 
     public List<Article> getNews(NewsParameters parameters) throws IOException, ApiException {
-        return super.getNews(parameters);
+        return newsApi.getNews(parameters);
     }
 
     public List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers, CryptoTopOfTheBookParameters parameters) throws IOException, ApiException {
