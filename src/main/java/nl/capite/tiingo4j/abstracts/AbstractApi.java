@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.capite.tiingo4j.exceptions.ApiException;
 import nl.capite.tiingo4j.exceptions.InvalidApiKeyException;
 import nl.capite.tiingo4j.exceptions.InvalidTickerException;
-import nl.capite.tiingo4j.models.Article;
-import nl.capite.tiingo4j.models.ErrorModel;
-import nl.capite.tiingo4j.models.Price;
-import nl.capite.tiingo4j.models.Meta;
+import nl.capite.tiingo4j.models.*;
 import nl.capite.tiingo4j.requestParameters.HistoricalPriceParameters;
 import nl.capite.tiingo4j.requestParameters.NewsParameters;
 import okhttp3.HttpUrl;
@@ -37,15 +34,21 @@ public abstract class AbstractApi {
 
 
     private <T extends AbstractParameters> Request createRequest(String urlStr, T parameters) {
+        if(parameters==null || parameters.getMap()==null) {
+            return createRequestFromMap(urlStr,null);
+        }
+        return createRequestFromMap(urlStr,parameters.getMap());
+    }
 
+    private Request createRequestFromMap(String urlStr,Map<String,String> parameters) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(urlStr).newBuilder();
         if(parameters!=null) {
-            for(Map.Entry<String,String> entry:parameters.getMap().entrySet()) {
+            for(Map.Entry<String,String> entry:parameters.entrySet()) {
                 urlBuilder.addQueryParameter(entry.getKey(),entry.getValue());
             }
         }
         HttpUrl urlObj = urlBuilder.build();
-        System.out.println(urlObj.toString());
+        System.out.println(urlObj.url().toString());
         return new Request.Builder()
                 .url(urlObj)
                 .addHeader("Authorization","Token " + apiKey)
@@ -78,6 +81,15 @@ public abstract class AbstractApi {
         return statusString.startsWith("2");
     }
 
+    private String csvString(List<String> strings) {
+        StringBuilder sb = new StringBuilder();
+
+        if(strings!=null) {
+            strings.forEach(word -> sb.append(word+","));
+            sb.setLength(sb.length()-1);
+        }
+        return sb.toString();
+    }
 
     protected Optional<Meta> getMeta(String ticker) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/daily/" + ticker;
@@ -119,6 +131,68 @@ public abstract class AbstractApi {
 
         var x = mapper.readValue(body,Article[].class);
         return  x==null?new ArrayList<>():Arrays.asList(x);
+    }
+
+    protected List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers,List<String> exchanges) throws IOException, ApiException {
+        final String url = "https://api.tiingo.com/tiingo/crypto/top";
+
+        Map<String,String> params = new HashMap<>();
+        if(exchanges!=null&&exchanges.size()!=0) {
+            params.put("exchanges",csvString(exchanges));
+        }
+
+        if(tickers==null) {
+            throw new NullPointerException("tickers parameters cannot be null.");
+        }
+        if(tickers.size()==0) {
+            throw new NullPointerException("tickers list must include at least one ticker.");
+        }
+
+        String tickerStringList = csvString(tickers);
+        params.put("tickers",tickerStringList);
+
+        Request request = createRequestFromMap(url,params);
+
+        Response response = client.newCall(request).execute();
+        String body = response.body().string();
+        if(!isStatus2XX(response.code())) {
+            throw parseError(body,null);
+        }
+
+        CryptoTopOfTheBook[] data = mapper.readValue(body,CryptoTopOfTheBook[].class);
+        return  data==null ? new ArrayList<>():Arrays.asList(data);
+    }
+
+    protected List<CryptoTopOfTheBookRaw> getCryptoTopOfTheBookRaw(List<String> tickers,List<String> exchanges) throws IOException, ApiException {
+        final String url = "https://api.tiingo.com/tiingo/crypto/top";
+
+        Map<String,String> params = new HashMap<>();
+        params.put("includeRawExchangeData","true");
+
+        if(exchanges!=null&&exchanges.size()!=0) {
+            params.put("exchanges",csvString(exchanges));
+        }
+
+        if(tickers==null) {
+            throw new NullPointerException("tickers parameters cannot be null.");
+        }
+        if(tickers.size()==0) {
+            throw new NullPointerException("tickers list must include at least one ticker.");
+        }
+
+        String tickerStringList = csvString(tickers);
+        params.put("tickers",tickerStringList);
+
+        Request request = createRequestFromMap(url,params);
+
+        Response response = client.newCall(request).execute();
+        String body = response.body().string();
+        if(!isStatus2XX(response.code())) {
+            throw parseError(body,null);
+        }
+
+        CryptoTopOfTheBookRaw[] data = mapper.readValue(body,CryptoTopOfTheBookRaw[].class);
+        return  data==null ? new ArrayList<>():Arrays.asList(data);
     }
 
 }
