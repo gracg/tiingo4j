@@ -7,7 +7,7 @@ import nl.capite.tiingo4j.exceptions.InvalidApiKeyException;
 import nl.capite.tiingo4j.exceptions.InvalidTickerException;
 import nl.capite.tiingo4j.models.Article;
 import nl.capite.tiingo4j.models.ErrorModel;
-import nl.capite.tiingo4j.models.HistoricalPrice;
+import nl.capite.tiingo4j.models.Price;
 import nl.capite.tiingo4j.models.Meta;
 import nl.capite.tiingo4j.requestParameters.HistoricalPriceParameters;
 import nl.capite.tiingo4j.requestParameters.NewsParameters;
@@ -93,7 +93,7 @@ public abstract class AbstractApi {
         return Optional.of(mapper.readValue(body,Meta.class));
     }
 
-    protected List<HistoricalPrice> getHistoricalPrices(String ticker, HistoricalPriceParameters parameters) throws IOException, ApiException {
+    protected List<Price> getPrices(String ticker, HistoricalPriceParameters parameters) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/daily/" + ticker + "/prices";
         Request request = createRequest(url,parameters);
 
@@ -102,7 +102,7 @@ public abstract class AbstractApi {
         if(!isStatus2XX(response.code())) {
             throw parseError(body,ticker);
         }
-        var x = mapper.readValue(body,HistoricalPrice[].class);
+        var x = mapper.readValue(body, Price[].class);
         return x==null?new ArrayList<>(): Arrays.asList(x);
     }
 

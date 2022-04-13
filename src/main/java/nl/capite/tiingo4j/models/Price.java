@@ -3,7 +3,7 @@ package nl.capite.tiingo4j.models;
 import lombok.Data;
 
 @Data
-public class HistoricalPrice {
+public class Price {
     private String date;
     private Double open;
     private Double high;

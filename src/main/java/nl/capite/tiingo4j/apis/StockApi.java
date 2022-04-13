@@ -2,7 +2,7 @@ package nl.capite.tiingo4j.apis;
 
 import nl.capite.tiingo4j.abstracts.AbstractApi;
 import nl.capite.tiingo4j.exceptions.ApiException;
-import nl.capite.tiingo4j.models.HistoricalPrice;
+import nl.capite.tiingo4j.models.Price;
 import nl.capite.tiingo4j.models.Meta;
 import nl.capite.tiingo4j.requestParameters.HistoricalPriceParameters;
 
@@ -19,7 +19,7 @@ public class StockApi  extends AbstractApi {
         return super.getMeta(ticker);
     }
 
-    public List<HistoricalPrice> getHistoricalPrices(String ticker, HistoricalPriceParameters parameters) throws IOException, ApiException {
-        return super.getHistoricalPrices(ticker,parameters);
+    public List<Price> getPrices(String ticker, HistoricalPriceParameters parameters) throws IOException, ApiException {
+        return super.getPrices(ticker,parameters);
     }
 }
