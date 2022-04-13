@@ -13,16 +13,19 @@ import java.util.Optional;
 
 public class TiingoApi extends AbstractApi {
 
+    private final StockApi stockApi;
+
     public TiingoApi(String apiKey) {
         super(apiKey);
+        stockApi = new StockApi(apiKey);
     }
 
     public Optional<Meta> getMeta(String ticker) throws IOException, ApiException {
-        return super.getMeta(ticker);
+        return stockApi.getMeta(ticker);
     }
 
     public List<Price> getPrices(String ticker, PriceParameters parameters) throws IOException, ApiException {
-        return super.getPrices(ticker,parameters);
+        return stockApi.getPrices(ticker,parameters);
     }
 
     public List<Article> getNews(NewsParameters parameters) throws IOException, ApiException {

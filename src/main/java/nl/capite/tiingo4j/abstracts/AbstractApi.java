@@ -21,27 +21,27 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractApi {
 
     private final String apiKey;
-    private final OkHttpClient client = new OkHttpClient.Builder()
+    protected final OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
             ;
-    private final ObjectMapper mapper = new ObjectMapper();
+    protected final ObjectMapper mapper = new ObjectMapper();
 
     protected AbstractApi(String apiKey) {
         this.apiKey = apiKey;
     }
 
 
-    private <T extends AbstractParameters> Request createRequest(String urlStr, T parameters) {
+    protected  <T extends AbstractParameters> Request createRequest(String urlStr, T parameters) {
         if(parameters==null || parameters.getMap()==null) {
             return createRequestFromMap(urlStr,null);
         }
         return createRequestFromMap(urlStr,parameters.getMap());
     }
 
-    private Request createRequestFromMap(String urlStr,Map<String,String> parameters) {
+    protected Request createRequestFromMap(String urlStr,Map<String,String> parameters) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(urlStr).newBuilder();
         if(parameters!=null) {
             for(Map.Entry<String,String> entry:parameters.entrySet()) {
@@ -57,7 +57,7 @@ public abstract class AbstractApi {
                 .build();
     }
 
-    private ApiException parseError(String body, Object o) {
+    protected ApiException parseError(String body, Object o) {
 
         try {
             ErrorModel e = mapper.readValue(body,ErrorModel.class);
@@ -77,12 +77,12 @@ public abstract class AbstractApi {
         }
     }
 
-    private boolean isStatus2XX(Integer status) {
+    protected boolean isStatus2XX(Integer status) {
         String statusString = String.valueOf(status);
         return statusString.startsWith("2");
     }
 
-    private String csvString(List<String> strings) {
+    protected String csvString(List<String> strings) {
         StringBuilder sb = new StringBuilder();
 
         if(strings!=null) {
@@ -92,32 +92,6 @@ public abstract class AbstractApi {
         return sb.toString();
     }
 
-    protected Optional<Meta> getMeta(String ticker) throws IOException, ApiException {
-        final String url = "https://api.tiingo.com/tiingo/daily/" + ticker;
-        Request request = createRequest(url,null);
-
-        Response response = client.newCall(request).execute();
-        String body = response.body().string();
-        List<Integer> x = new ArrayList<>();
-        if(!isStatus2XX(response.code())) {
-            throw parseError(body,ticker);
-        }
-
-        return Optional.of(mapper.readValue(body,Meta.class));
-    }
-
-    protected List<Price> getPrices(String ticker, PriceParameters parameters) throws IOException, ApiException {
-        final String url = "https://api.tiingo.com/tiingo/daily/" + ticker + "/prices";
-        Request request = createRequest(url,parameters);
-
-        Response response = client.newCall(request).execute();
-        String body = response.body().string();
-        if(!isStatus2XX(response.code())) {
-            throw parseError(body,ticker);
-        }
-        var x = mapper.readValue(body, Price[].class);
-        return x==null?new ArrayList<>(): Arrays.asList(x);
-    }
 
     protected List<Article> getNews(NewsParameters parameters) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/news";
