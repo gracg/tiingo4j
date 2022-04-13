@@ -1,4 +1,4 @@
-#Tiingo4j
+# Tiingo4j
 
 The purpose of this library is to provide a standard interface to interact with the Tiingo api using java. Tiingo4j implements the stock, crypto and news endpoints.
 A [Tiingo](https://api.tiingo.com/) account and api key are needed to use Tiingo4j.
