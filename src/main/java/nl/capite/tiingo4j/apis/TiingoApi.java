@@ -11,14 +11,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class TiingoApi extends AbstractApi {
+public class TiingoApi {
 
     private final StockApi stockApi;
     private final NewsApi newsApi;
     private final CryptoApi cryptoApi;
 
     public TiingoApi(String apiKey) {
-        super(apiKey);
         stockApi = new StockApi(apiKey);
         newsApi = new NewsApi(apiKey);
         cryptoApi = new CryptoApi(apiKey);
