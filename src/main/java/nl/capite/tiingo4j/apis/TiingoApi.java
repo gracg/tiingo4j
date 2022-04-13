@@ -3,6 +3,7 @@ package nl.capite.tiingo4j.apis;
 import nl.capite.tiingo4j.abstracts.AbstractApi;
 import nl.capite.tiingo4j.exceptions.ApiException;
 import nl.capite.tiingo4j.models.*;
+import nl.capite.tiingo4j.requestParameters.CryptoPriceParameters;
 import nl.capite.tiingo4j.requestParameters.CryptoTopOfTheBookParameters;
 import nl.capite.tiingo4j.requestParameters.PriceParameters;
 import nl.capite.tiingo4j.requestParameters.NewsParameters;
@@ -28,7 +29,7 @@ public class TiingoApi {
     }
 
     public List<Price> getPrices(String ticker, PriceParameters parameters) throws IOException, ApiException {
-        return stockApi.getPrices(ticker,parameters);
+        return stockApi.getPrices(ticker, parameters);
     }
 
     public List<Article> getNews(NewsParameters parameters) throws IOException, ApiException {
@@ -36,10 +37,14 @@ public class TiingoApi {
     }
 
     public List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers, CryptoTopOfTheBookParameters parameters) throws IOException, ApiException {
-        return cryptoApi.getCryptoTopOfTheBook(tickers,parameters);
+        return cryptoApi.getCryptoTopOfTheBook(tickers, parameters);
     }
 
     public List<CryptoMeta> getCryptoMetas(List<String> tickers) throws IOException, ApiException {
         return cryptoApi.getCryptoMetas(tickers);
+    }
+
+    public List<CryptoPrice> getCryptoPrices(List<String> tickers, CryptoPriceParameters parameters) throws IOException, ApiException {
+        return cryptoApi.getCryptoPrices(tickers, parameters);
     }
 }
