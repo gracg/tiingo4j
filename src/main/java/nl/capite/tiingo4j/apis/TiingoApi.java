@@ -32,7 +32,4 @@ public class TiingoApi extends AbstractApi {
         return super.getCryptoTopOfTheBook(tickers,exchanges);
     }
 
-    public List<CryptoTopOfTheBookRaw> getCryptoTopOfTheBookRaw(List<String> tickers, List<String> exchanges) throws IOException, ApiException {
-        return super.getCryptoTopOfTheBookRaw(tickers,exchanges);
-    }
 }

@@ -163,36 +163,4 @@ public abstract class AbstractApi {
         return  data==null ? new ArrayList<>():Arrays.asList(data);
     }
 
-    protected List<CryptoTopOfTheBookRaw> getCryptoTopOfTheBookRaw(List<String> tickers,List<String> exchanges) throws IOException, ApiException {
-        final String url = "https://api.tiingo.com/tiingo/crypto/top";
-
-        Map<String,String> params = new HashMap<>();
-        params.put("includeRawExchangeData","true");
-
-        if(exchanges!=null&&exchanges.size()!=0) {
-            params.put("exchanges",csvString(exchanges));
-        }
-
-        if(tickers==null) {
-            throw new NullPointerException("tickers parameters cannot be null.");
-        }
-        if(tickers.size()==0) {
-            throw new NullPointerException("tickers list must include at least one ticker.");
-        }
-
-        String tickerStringList = csvString(tickers);
-        params.put("tickers",tickerStringList);
-
-        Request request = createRequestFromMap(url,params);
-
-        Response response = client.newCall(request).execute();
-        String body = response.body().string();
-        if(!isStatus2XX(response.code())) {
-            throw parseError(body,null);
-        }
-
-        CryptoTopOfTheBookRaw[] data = mapper.readValue(body,CryptoTopOfTheBookRaw[].class);
-        return  data==null ? new ArrayList<>():Arrays.asList(data);
-    }
-
 }
