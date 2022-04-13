@@ -8,15 +8,6 @@ import java.util.List;
 
 public class NewsParameters extends AbstractParameters {
 
-    private String csvString(List<String> strings) {
-        StringBuilder sb = new StringBuilder();
-
-        if(strings!=null) {
-            strings.forEach(word -> sb.append(word+","));
-            sb.setLength(sb.length()-1);
-        }
-        return sb.toString();
-    }
 
     public NewsParameters setTickers(List<String> tickers) {
         if(tickers!=null) {
