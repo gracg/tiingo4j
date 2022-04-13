@@ -15,11 +15,13 @@ public class TiingoApi extends AbstractApi {
 
     private final StockApi stockApi;
     private final NewsApi newsApi;
+    private final CryptoApi cryptoApi;
 
     public TiingoApi(String apiKey) {
         super(apiKey);
         stockApi = new StockApi(apiKey);
         newsApi = new NewsApi(apiKey);
+        cryptoApi = new CryptoApi(apiKey);
     }
 
     public Optional<Meta> getMeta(String ticker) throws IOException, ApiException {
@@ -35,7 +37,7 @@ public class TiingoApi extends AbstractApi {
     }
 
     public List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers, CryptoTopOfTheBookParameters parameters) throws IOException, ApiException {
-        return super.getCryptoTopOfTheBook(tickers,parameters);
+        return cryptoApi.getCryptoTopOfTheBook(tickers,parameters);
     }
 
 }
