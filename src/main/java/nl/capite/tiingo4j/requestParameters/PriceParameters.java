@@ -1,7 +1,7 @@
 package nl.capite.tiingo4j.requestParameters;
 
 import nl.capite.tiingo4j.abstracts.AbstractParameters;
-import nl.capite.tiingo4j.enums.HISTORICAL_PRICE_SORT;
+import nl.capite.tiingo4j.enums.PRICE_SORT;
 import nl.capite.tiingo4j.enums.RESAMPLE_FREQUENCY;
 
 import java.time.format.DateTimeParseException;
@@ -40,7 +40,7 @@ public class PriceParameters extends AbstractParameters {
         return this;
     }
 
-    public PriceParameters setSort(HISTORICAL_PRICE_SORT sort) {
+    public PriceParameters setSort(PRICE_SORT sort) {
         map.put("sort", sort.toString());
         return this;
     }

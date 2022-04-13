@@ -1,6 +1,6 @@
 package nl.capite.tiingo4j.enums;
 
-public enum HISTORICAL_PRICE_SORT {
+public enum PRICE_SORT {
     DATE("date"),
     DATE_DESC("-date"),
     OPEN("open"),
@@ -29,7 +29,7 @@ public enum HISTORICAL_PRICE_SORT {
     SPLIT_DESC("-splitFactor");
 
     private String value;
-    HISTORICAL_PRICE_SORT(String string){value=string;}
+    PRICE_SORT(String string){value=string;}
 
     @Override
     public String toString() {
