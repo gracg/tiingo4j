@@ -7,9 +7,9 @@ import nl.capite.tiingo4j.enums.RESAMPLE_FREQUENCY;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 
-public class HistoricalPriceParameters extends AbstractParameters {
+public class PriceParameters extends AbstractParameters {
 
-    public HistoricalPriceParameters setStartDate(String date) {
+    public PriceParameters setStartDate(String date) {
         if(date!=null) {
             try {
                 isValidStandardDate(date);
@@ -22,7 +22,7 @@ public class HistoricalPriceParameters extends AbstractParameters {
         return this;
     }
 
-    public HistoricalPriceParameters setEndDate(String date) {
+    public PriceParameters setEndDate(String date) {
         if(date!=null) {
             try {
                 isValidStandardDate(date);
@@ -35,12 +35,12 @@ public class HistoricalPriceParameters extends AbstractParameters {
         return this;
     }
 
-    public HistoricalPriceParameters setResampleFrequency(RESAMPLE_FREQUENCY frequency) {
+    public PriceParameters setResampleFrequency(RESAMPLE_FREQUENCY frequency) {
         map.put("resampleFreq",frequency.toString());
         return this;
     }
 
-    public HistoricalPriceParameters setSort(HISTORICAL_PRICE_SORT sort) {
+    public PriceParameters setSort(HISTORICAL_PRICE_SORT sort) {
         map.put("sort", sort.toString());
         return this;
     }
