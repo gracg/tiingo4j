@@ -6,6 +6,7 @@ import nl.capite.tiingo4j.exceptions.ApiException;
 import nl.capite.tiingo4j.exceptions.InvalidApiKeyException;
 import nl.capite.tiingo4j.exceptions.InvalidTickerException;
 import nl.capite.tiingo4j.models.*;
+import nl.capite.tiingo4j.requestParameters.CryptoTopOfTheBookParameters;
 import nl.capite.tiingo4j.requestParameters.HistoricalPriceParameters;
 import nl.capite.tiingo4j.requestParameters.NewsParameters;
 import okhttp3.HttpUrl;
@@ -133,19 +134,21 @@ public abstract class AbstractApi {
         return  x==null?new ArrayList<>():Arrays.asList(x);
     }
 
-    protected List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers,List<String> exchanges) throws IOException, ApiException {
+    protected List<CryptoTopOfTheBook> getCryptoTopOfTheBook(List<String> tickers, CryptoTopOfTheBookParameters parameters) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/crypto/top";
 
-        Map<String,String> params = new HashMap<>();
-        if(exchanges!=null&&exchanges.size()!=0) {
-            params.put("exchanges",csvString(exchanges));
-        }
+
 
         if(tickers==null) {
             throw new NullPointerException("tickers parameters cannot be null.");
         }
         if(tickers.size()==0) {
             throw new NullPointerException("tickers list must include at least one ticker.");
+        }
+
+        HashMap<String,String> params = new HashMap<>();
+        if(parameters!=null) {
+            params = parameters.getMap();
         }
 
         String tickerStringList = csvString(tickers);
