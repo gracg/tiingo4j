@@ -10,5 +10,5 @@ public class CryptoTopOfTheBook {
     private String baseCurrency;
     private String quoteCurrency;
     private CryptoTopOfTheBookData[] topOfBookData;
-    private Map<String,CryptoTopOfTheBookDataProvider[]> exchangeData;
+    private Map<String, CryptoExchangeData[]> exchangeData;
 }

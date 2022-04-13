@@ -1,10 +1,9 @@
 package nl.capite.tiingo4j.models;
 
-import kotlin.jvm.internal.PropertyReference0Impl;
 import lombok.Data;
 
 @Data
-public class CryptoTopOfTheBookDataProvider {
+public class CryptoExchangeData {
     private Double bidSize;
     private String quoteTimestampStr;
     private String exchangeCode;

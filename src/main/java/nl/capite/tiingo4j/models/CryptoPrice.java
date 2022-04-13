@@ -10,5 +10,5 @@ public class CryptoPrice {
     private String baseCurrency;
     private String quoteCurrency;
     private CryptoPriceData[] priceData;
-    private Map<String,CryptoTopOfTheBookDataProvider[]> exchangeData;
+    private Map<String, CryptoExchangeData[]> exchangeData;
 }
