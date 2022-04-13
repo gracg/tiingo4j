@@ -1,7 +1,7 @@
-package nl.capite.tiingo4j;
+package nl.capite.tiingo4j.abstracts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import nl.capite.tiingo4j.abstracts.AbstractParameters;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.capite.tiingo4j.exceptions.ApiException;
 import nl.capite.tiingo4j.exceptions.InvalidApiKeyException;
 import nl.capite.tiingo4j.exceptions.InvalidTickerException;
@@ -14,16 +14,13 @@ import nl.capite.tiingo4j.requestParameters.NewsParameters;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-
-public class Tiingo {
+public abstract class AbstractApi {
 
     private final String apiKey;
     private final OkHttpClient client = new OkHttpClient.Builder()
@@ -34,18 +31,17 @@ public class Tiingo {
             ;
     private final ObjectMapper mapper = new ObjectMapper();
 
-
-    public Tiingo(String apiKey) {
-        this.apiKey=apiKey;
+    protected AbstractApi(String apiKey) {
+        this.apiKey = apiKey;
     }
 
 
-    private <T extends AbstractParameters> Request createRequest(String urlStr,T parameters) {
+    private <T extends AbstractParameters> Request createRequest(String urlStr, T parameters) {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(urlStr).newBuilder();
         if(parameters!=null) {
             for(Map.Entry<String,String> entry:parameters.getMap().entrySet()) {
-               urlBuilder.addQueryParameter(entry.getKey(),entry.getValue());
+                urlBuilder.addQueryParameter(entry.getKey(),entry.getValue());
             }
         }
         HttpUrl urlObj = urlBuilder.build();
@@ -57,20 +53,20 @@ public class Tiingo {
                 .build();
     }
 
-    private ApiException parseError(String body,Object o) {
+    private ApiException parseError(String body, Object o) {
 
         try {
             ErrorModel e = mapper.readValue(body,ErrorModel.class);
             ApiException exception;
 
-            if(e.getDetail().equals("Not found.")) {
+            if(e.getDetail().equals("Not found.") || e.getDetail().contains("Error: Ticker")) {
                 return new ApiException(new InvalidTickerException((String) o));
             }
             if(e.getDetail().equals("Invalid token.")) {
                 return new ApiException(new InvalidApiKeyException());
             }
 
-            return new ApiException(null);
+            return new ApiException(new Exception(body));
 
         } catch (JsonProcessingException ex) {
             return new ApiException(ex);
@@ -83,7 +79,7 @@ public class Tiingo {
     }
 
 
-    public Optional<Meta> getMeta(String ticker) throws IOException, ApiException {
+    protected Optional<Meta> getMeta(String ticker) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/daily/" + ticker;
         Request request = createRequest(url,null);
 
@@ -97,20 +93,20 @@ public class Tiingo {
         return Optional.of(mapper.readValue(body,Meta.class));
     }
 
-    public List<HistoricalPrice> getHistoricalPrices(String ticker, HistoricalPriceParameters parameters) throws IOException, ApiException {
+    protected List<HistoricalPrice> getHistoricalPrices(String ticker, HistoricalPriceParameters parameters) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/daily/" + ticker + "/prices";
         Request request = createRequest(url,parameters);
 
         Response response = client.newCall(request).execute();
         String body = response.body().string();
         if(!isStatus2XX(response.code())) {
-            throw parseError(body,null);
+            throw parseError(body,ticker);
         }
         var x = mapper.readValue(body,HistoricalPrice[].class);
-        return x==null?new ArrayList<>():Arrays.asList(x);
+        return x==null?new ArrayList<>(): Arrays.asList(x);
     }
 
-    public List<Article> getNews(NewsParameters parameters) throws IOException, ApiException {
+    protected List<Article> getNews(NewsParameters parameters) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/tiingo/news";
         Request request = createRequest(url,parameters);
 
