@@ -2,6 +2,8 @@ package nl.capite.tiingo4j.apis;
 
 import nl.capite.tiingo4j.abstracts.AbstractApi;
 import nl.capite.tiingo4j.exceptions.ApiException;
+import nl.capite.tiingo4j.exceptions.CryptoMetaExceededTickerLimitException;
+import nl.capite.tiingo4j.models.CryptoMeta;
 import nl.capite.tiingo4j.models.CryptoTopOfTheBook;
 import nl.capite.tiingo4j.requestParameters.CryptoTopOfTheBookParameters;
 import okhttp3.Request;
@@ -49,5 +51,28 @@ public class CryptoApi extends AbstractApi {
 
         CryptoTopOfTheBook[] data = mapper.readValue(body,CryptoTopOfTheBook[].class);
         return  data==null ? new ArrayList<>(): Arrays.asList(data);
+    }
+
+    public List<CryptoMeta> getCryptoMetas(List<String> tickers) throws IOException, ApiException {
+        final String url = "https://api.tiingo.com/tiingo/crypto";
+
+        HashMap<String,String> params = new HashMap<>();
+        if(tickers!=null&&tickers.size()>0) {
+            if(tickers.size()>100) {
+                throw new ApiException(new CryptoMetaExceededTickerLimitException());
+            }
+            params.put("tickers",csvString(tickers));
+        }
+
+        Request request = createRequestFromMap(url,params);
+        Response response = client.newCall(request).execute();
+        String body = response.body().string();
+
+        if(!isStatus2XX(response.code())) {
+            throw parseError(body,csvString(tickers));
+        }
+
+        CryptoMeta[] metas = mapper.readValue(body,CryptoMeta[].class);
+        return metas==null? new ArrayList<>():Arrays.asList(metas);
     }
 }

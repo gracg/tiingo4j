@@ -39,4 +39,7 @@ public class TiingoApi {
         return cryptoApi.getCryptoTopOfTheBook(tickers,parameters);
     }
 
+    public List<CryptoMeta> getCryptoMetas(List<String> tickers) throws IOException, ApiException {
+        return cryptoApi.getCryptoMetas(tickers);
+    }
 }
