@@ -6,7 +6,7 @@
 
     <groupId>top.cptl</groupId>
     <artifactId>tiingo4j</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>tiingo4j</name>
@@ -99,6 +99,9 @@
     <profiles>
         <profile>
             <id>ci-cd</id>
+            <properties>
+                <gpg.executable>C:\Program Files\Git\usr\bin\gpg.exe</gpg.executable>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -113,15 +116,16 @@
                                     <goal>sign</goal>
                                 </goals>
                                 <configuration>
+                                    <keyname>8B3FB43565315D95CEA6D53256388EF3DB5C7E5E</keyname>
                                     <!-- Prevent gpg from using pinentry programs. Fixes: gpg: signing
                                        failed: Inappropriate ioctl for device -->
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
+
                                 </configuration>
                             </execution>
                         </executions>
+                        <configuration>
+                            <keyname>8B3FB43565315D95CEA6D53256388EF3DB5C7E5E</keyname>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
