@@ -1,7 +1,6 @@
 package top.cptl.tiingo4j.apis;
 
 import top.cptl.tiingo4j.exceptions.ApiException;
-import nl.capite.tiingo4j.models.*;
 import top.cptl.tiingo4j.models.*;
 import top.cptl.tiingo4j.requestParameters.CryptoPriceParameters;
 import top.cptl.tiingo4j.requestParameters.CryptoTopOfTheBookParameters;

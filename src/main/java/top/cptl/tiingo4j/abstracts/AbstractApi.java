@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import top.cptl.tiingo4j.exceptions.ApiException;
 import top.cptl.tiingo4j.exceptions.InvalidApiKeyException;
 import top.cptl.tiingo4j.exceptions.InvalidTickerException;
-import nl.capite.tiingo4j.models.*;
 import top.cptl.tiingo4j.models.ErrorModel;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
