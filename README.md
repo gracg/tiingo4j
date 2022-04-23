@@ -3,6 +3,15 @@
 The purpose of this library is to provide a standard interface to interact with the Tiingo api using java. Tiingo4j implements the stock, crypto and news endpoints.
 A [Tiingo](https://api.tiingo.com/) account and api key are needed to use Tiingo4j.
 
+
+#### Maven artifact
+```java
+<dependency>
+    <groupId>top.cptl</groupId>
+    <artifactId>tiingo4j</artifactId>
+    <version>1.1</version>
+</dependency>
+```
 ### Getting Started
 Tiingo4j offers several apis for interfacing with Tiingo. The TiingoApi is a consolidated version of the stock,crypto and news apis.
 
