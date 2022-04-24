@@ -6,7 +6,7 @@
 
     <groupId>top.cptl</groupId>
     <artifactId>tiingo4j</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>tiingo4j</name>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.0</version>
+            <version>2.13.2.1</version>
         </dependency>
     </dependencies>
 
