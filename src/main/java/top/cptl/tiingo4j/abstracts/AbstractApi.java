@@ -44,7 +44,6 @@ public abstract class AbstractApi {
             }
         }
         HttpUrl urlObj = urlBuilder.build();
-        System.out.println(urlObj.url().toString());
         return new Request.Builder()
                 .url(urlObj)
                 .addHeader("Authorization","Token " + apiKey)
