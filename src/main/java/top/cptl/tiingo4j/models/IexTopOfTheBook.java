@@ -1,5 +1,6 @@
 package top.cptl.tiingo4j.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
@@ -9,8 +10,10 @@ public class IexTopOfTheBook {
     private String quoteTimestamp;
     private String lastSaleTimestamp;
     private Double last;
-    private Integer size;
+    private Integer lastSize;
+    @JsonProperty("tngoLast")
     private Double tiingoLast;
+    @JsonProperty("prevClose")
     private Double previousClose;
     private Double open;
     private Double high;
