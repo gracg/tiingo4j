@@ -9,7 +9,7 @@ A [Tiingo](https://api.tiingo.com/) account and api key are needed to use Tiingo
 <dependency>
     <groupId>top.cptl</groupId>
     <artifactId>tiingo4j</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
 </dependency>
 ```
 ### Getting Started
