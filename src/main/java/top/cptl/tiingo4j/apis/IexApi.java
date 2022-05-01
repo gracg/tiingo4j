@@ -17,7 +17,7 @@ public class IexApi extends AbstractApi {
     public List<IexTopOfTheBook> getIexTopOfTheBook(List<String> tickers) throws IOException, ApiException {
         final String url = "https://api.tiingo.com/iex";
         Map<String,String> parameters = new HashMap<>();
-        if(tickers!=null||tickers.size()!=0) {
+        if(tickers!=null&&tickers.size()!=0) {
             parameters.put("tickers",csvString(tickers));
         }
 
